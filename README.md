@@ -1,5 +1,11 @@
 # FORESIGHT — Demand Forecasting & Inventory Risk Analytics
 
+# Live Dashboard
+[Open the FORESIGHT Dashboard](https://zidio-foresight-project-v2xsyb6aeqxmlstmpzepuq.streamlit.app/)
+
+📌 Project Overview
+FORESIGHT is an inventory intelligence project designed to help businesses identify demand patterns, detect potential stockouts, flag excess inventory, and understand the financial impact of inventory decisions.
+
 A data-driven forecasting and inventory risk management project developed as part of the Zidio Development internship.
 
 ## Project Overview
