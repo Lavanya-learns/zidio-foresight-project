@@ -278,7 +278,7 @@ The generated outputs can then be used by the dashboard and scoring service.
 * Business impact analysis: Complete
 * Dashboard: Complete
 * Scoring API: Complete
-* Deployment: In progress
+* Deployment: Complete
 
 ## Project Context
 
