@@ -10,122 +10,213 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.markdown("""
+# ---------- Design tokens ----------
+INK = "#0f172a"
+MUTED = "#64748b"
+LINE = "#e2e8f0"
+SURFACE = "#ffffff"
+CANVAS = "#f6f8fb"
+PRIMARY = "#1d4ed8"
+DANGER = "#dc2626"
+WARN = "#d97706"
+FONT = "Inter, 'Segoe UI', system-ui, sans-serif"
+
+st.markdown(f"""
 <style>
-    .stApp {
-        background: #0b1220;
-        color: #f4f7fb;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    [data-testid="stSidebar"] {
-        background: #111827;
-        border-right: 1px solid #263244;
-    }
+    :root {{ color-scheme: light only; }}
 
-    [data-testid="stSidebar"] * {
-        color: #e5e7eb;
-    }
+    html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {{
+        background: {CANVAS} !important;
+        color: {INK} !important;
+        font-family: {FONT};
+    }}
 
-    .main-title {
-        font-size: 38px;
-        font-weight: 800;
-        letter-spacing: -1px;
-        margin-bottom: 2px;
-    }
+    [data-testid="stHeader"] {{
+        background: transparent !important;
+    }}
 
-    .subtitle {
-        color: #9ca3af;
-        font-size: 15px;
-        margin-bottom: 28px;
-    }
+    .block-container {{
+        padding-top: 2.2rem;
+        padding-bottom: 3rem;
+        max-width: 1280px;
+    }}
 
-    .section-title {
-        font-size: 23px;
-        font-weight: 700;
-        margin-top: 25px;
-        margin-bottom: 5px;
-    }
+    /* Sidebar */
+    [data-testid="stSidebar"] {{
+        background: {SURFACE} !important;
+        border-right: 1px solid {LINE};
+    }}
+    [data-testid="stSidebar"] * {{
+        color: {INK} !important;
+        font-family: {FONT};
+    }}
+    [data-testid="stSidebar"] [data-testid="stCaptionContainer"] * {{
+        color: {MUTED} !important;
+    }}
+    [data-testid="stSidebar"] hr {{
+        border-color: {LINE};
+    }}
 
-    .section-subtitle {
-        color: #9ca3af;
-        font-size: 14px;
-        margin-bottom: 18px;
-    }
-
-    .kpi-card {
-        background: #111827;
-        border: 1px solid #263244;
-        border-radius: 14px;
-        padding: 20px;
-        min-height: 125px;
-    }
-
-    .kpi-label {
-        color: #9ca3af;
+    /* Inputs */
+    div[data-baseweb="select"] > div {{
+        background: {SURFACE} !important;
+        border: 1px solid {LINE} !important;
+        border-radius: 10px !important;
+        color: {INK} !important;
+    }}
+    div[data-baseweb="select"] span, div[data-baseweb="select"] div {{
+        color: {INK} !important;
+    }}
+    div[data-baseweb="popover"] ul, div[data-baseweb="menu"] {{
+        background: {SURFACE} !important;
+    }}
+    div[data-baseweb="popover"] li {{
+        color: {INK} !important;
+    }}
+    label, [data-testid="stWidgetLabel"] p {{
+        color: {INK} !important;
+        font-weight: 600;
         font-size: 13px;
-        margin-bottom: 8px;
-    }
+    }}
 
-    .kpi-value {
-        color: #f8fafc;
+    /* Typography */
+    .main-title {{
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: -1.2px;
+        color: {INK};
+        margin-bottom: 2px;
+    }}
+    .subtitle {{
+        color: {MUTED};
+        font-size: 15px;
+        margin-bottom: 8px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid {LINE};
+    }}
+    .section-title {{
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        color: {INK};
+        margin-top: 34px;
+        margin-bottom: 4px;
+    }}
+    .section-subtitle {{
+        color: {MUTED};
+        font-size: 14px;
+        margin-bottom: 16px;
+    }}
+
+    /* KPI cards */
+    .kpi-card {{
+        background: {SURFACE};
+        border: 1px solid {LINE};
+        border-top: 3px solid {PRIMARY};
+        border-radius: 12px;
+        padding: 18px 18px 16px 18px;
+        min-height: 128px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }}
+    .kpi-label {{
+        color: {MUTED};
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }}
+    .kpi-value {{
+        color: {INK};
         font-size: 28px;
         font-weight: 750;
-    }
-
-    .kpi-note {
-        color: #94a3b8;
+        letter-spacing: -0.5px;
+    }}
+    .kpi-note {{
+        color: {MUTED};
         font-size: 12px;
         margin-top: 7px;
-    }
+        line-height: 1.4;
+    }}
 
-    .info-box {
-        background: #111827;
-        border: 1px solid #263244;
-        border-radius: 14px;
+    .info-box, .action-box {{
+        background: {SURFACE};
+        border: 1px solid {LINE};
+        border-radius: 12px;
         padding: 18px;
         margin-bottom: 12px;
-    }
+    }}
+    .risk-number {{ font-size: 26px; font-weight: 750; color: {INK}; }}
+    .risk-label {{ color: {MUTED}; font-size: 13px; }}
 
-    .risk-number {
-        font-size: 26px;
-        font-weight: 750;
-    }
-
-    .risk-label {
-        color: #9ca3af;
-        font-size: 13px;
-    }
-
-    .action-box {
-        background: #111827;
-        border: 1px solid #263244;
-        border-radius: 14px;
-        padding: 18px;
-    }
-
-    .footer {
-        text-align: center;
-        color: #64748b;
-        font-size: 12px;
-        padding: 30px 0 10px 0;
-    }
-
-    div[data-testid="stMetric"] {
-        background: #111827;
-        border: 1px solid #263244;
-        padding: 15px;
+    /* Streamlit metrics */
+    div[data-testid="stMetric"] {{
+        background: {SURFACE};
+        border: 1px solid {LINE};
         border-radius: 12px;
-    }
+        padding: 15px 16px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }}
+    div[data-testid="stMetricLabel"] * {{ color: {MUTED} !important; font-weight: 600; }}
+    div[data-testid="stMetricValue"] * {{ color: {INK} !important; font-weight: 700; }}
 
-    div[data-testid="stMetricLabel"] {
-        color: #9ca3af;
-    }
+    /* Charts and tables */
+    div[data-testid="stPlotlyChart"] {{
+        background: {SURFACE};
+        border: 1px solid {LINE};
+        border-radius: 12px;
+        padding: 8px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }}
+    div[data-testid="stDataFrame"] {{
+        border: 1px solid {LINE};
+        border-radius: 12px;
+        overflow: hidden;
+        background: {SURFACE};
+    }}
 
-    div[data-testid="stMetricValue"] {
-        color: #f8fafc;
-    }
+    /* Expander */
+    div[data-testid="stExpander"] {{
+        background: {SURFACE};
+        border: 1px solid {LINE} !important;
+        border-radius: 12px;
+    }}
+    div[data-testid="stExpander"] * {{ color: {INK}; }}
+
+    /* Alerts */
+    div[data-testid="stAlert"] {{ border-radius: 10px; }}
+
+    .footer {{
+        text-align: center;
+        color: {MUTED};
+        font-size: 12px;
+        padding: 36px 0 10px 0;
+        margin-top: 30px;
+        border-top: 1px solid {LINE};
+    }}
 </style>
 """, unsafe_allow_html=True)
+
+
+def style_fig(fig, height, margin=None, **layout):
+    """Apply a consistent light, professional look to every chart."""
+    fig.update_layout(
+        height=height,
+        template="plotly_white",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family=FONT, color=INK, size=13),
+        title=dict(font=dict(size=16, color=INK), x=0.01, xanchor="left"),
+        margin=margin or dict(l=20, r=20, t=60, b=20),
+        legend=dict(
+            orientation="h", yanchor="bottom", y=1.02,
+            xanchor="right", x=1, title_text=""
+        ),
+        **layout
+    )
+    fig.update_xaxes(showgrid=False, linecolor=LINE, tickfont=dict(color=MUTED))
+    fig.update_yaxes(gridcolor="#eef2f7", zeroline=False, tickfont=dict(color=MUTED))
+    return fig
 
 
 @st.cache_data
@@ -303,7 +394,7 @@ with k1:
 with k2:
     st.markdown(
         f"""
-        <div class="kpi-card">
+        <div class="kpi-card" style="border-top-color:{DANGER};">
             <div class="kpi-label">Possible stockouts</div>
             <div class="kpi-value">{stockout_count:,}</div>
             <div class="kpi-note">Items that may need attention</div>
@@ -315,7 +406,7 @@ with k2:
 with k3:
     st.markdown(
         f"""
-        <div class="kpi-card">
+        <div class="kpi-card" style="border-top-color:{WARN};">
             <div class="kpi-label">Extra stock</div>
             <div class="kpi-value">₹{overstock_value / 1e6:.2f}M</div>
             <div class="kpi-note">Capital tied up in excess inventory</div>
@@ -327,7 +418,7 @@ with k3:
 with k4:
     st.markdown(
         f"""
-        <div class="kpi-card">
+        <div class="kpi-card" style="border-top-color:{DANGER};">
             <div class="kpi-label">Sales at risk</div>
             <div class="kpi-value">₹{stockout_value / 1e6:.2f}M</div>
             <div class="kpi-note">Potential sales exposure from stockouts</div>
@@ -339,7 +430,7 @@ with k4:
 with k5:
     st.markdown(
         f"""
-        <div class="kpi-card">
+        <div class="kpi-card" style="border-top-color:{INK};">
             <div class="kpi-label">Total exposure</div>
             <div class="kpi-value">₹{total_exposure / 1e6:.2f}M</div>
             <div class="kpi-note">Stockout risk + excess inventory</div>
@@ -373,21 +464,17 @@ with left:
         x="Risk",
         y="SKUs",
         text="SKUs",
-        title="Items that may need attention"
+        title="Items that may need attention",
+        color="Risk",
+        color_discrete_map={"Stockout": DANGER, "Overstock": WARN}
     )
 
     fig.update_traces(
-        textposition="outside"
+        textposition="outside",
+        marker_line_width=0
     )
 
-    fig.update_layout(
-        height=360,
-        template="plotly_dark",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        margin=dict(l=20, r=20, t=60, b=20),
-        showlegend=False
-    )
+    style_fig(fig, 360, showlegend=False, xaxis_title="")
 
     st.plotly_chart(
         fig,
@@ -412,22 +499,22 @@ with right:
         x="Area",
         y="Value",
         text="Value",
-        title="Where money is currently exposed"
+        title="Where money is currently exposed",
+        color="Area",
+        color_discrete_map={"Sales at risk": DANGER, "Extra stock": WARN}
     )
 
     fig.update_traces(
         texttemplate="₹%{y:.2s}",
-        textposition="outside"
+        textposition="outside",
+        marker_line_width=0
     )
 
-    fig.update_layout(
-        height=360,
-        template="plotly_dark",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        margin=dict(l=20, r=20, t=60, b=20),
+    style_fig(
+        fig, 360,
         showlegend=False,
-        yaxis_title="Value (₹)"
+        yaxis_title="Value (₹)",
+        xaxis_title=""
     )
 
     st.plotly_chart(
@@ -468,17 +555,18 @@ if "Recommended_Action" in latest.columns:
     )
 
     fig.update_traces(
-        textposition="outside"
+        textposition="outside",
+        marker_color=PRIMARY,
+        marker_line_width=0
     )
 
-    fig.update_layout(
-        height=400,
-        template="plotly_dark",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
+    style_fig(
+        fig, 400,
         margin=dict(l=20, r=40, t=60, b=20),
-        showlegend=False
+        showlegend=False,
+        yaxis_title=""
     )
+    fig.update_yaxes(autorange="reversed")
 
     st.plotly_chart(
         fig,
@@ -525,14 +613,14 @@ if "Category" in latest.columns:
         y="Value",
         color="Risk_Type",
         barmode="group",
-        title="Financial exposure by category"
+        title="Financial exposure by category",
+        color_discrete_map={"Sales at risk": DANGER, "Extra stock": WARN}
     )
 
-    fig.update_layout(
-        height=430,
-        template="plotly_dark",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
+    fig.update_traces(marker_line_width=0)
+
+    style_fig(
+        fig, 430,
         margin=dict(l=20, r=20, t=60, b=80),
         yaxis_title="Value (₹)",
         xaxis_title=""
@@ -728,12 +816,13 @@ if "SKU" in risk_df.columns:
                         title=f"How demand has moved for {detail_sku}"
                     )
 
-                    fig.update_layout(
-                        height=400,
-                        template="plotly_dark",
-                        paper_bgcolor="rgba(0,0,0,0)",
-                        plot_bgcolor="rgba(0,0,0,0)",
-                        margin=dict(l=20, r=20, t=60, b=20),
+                    fig.update_traces(
+                        line_color=PRIMARY,
+                        fillcolor="rgba(29, 78, 216, 0.12)"
+                    )
+
+                    style_fig(
+                        fig, 400,
                         xaxis_title="",
                         yaxis_title="Demand"
                     )
@@ -808,19 +897,18 @@ if not weekly_df.empty:
                 y=overall_demand[demand_column],
                 mode="lines",
                 fill="tozeroy",
-                name="Demand"
+                name="Demand",
+                line=dict(color=PRIMARY, width=2),
+                fillcolor="rgba(29, 78, 216, 0.12)"
             )
         )
 
-        fig.update_layout(
-            title="Weekly demand across all products",
-            height=430,
-            template="plotly_dark",
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            margin=dict(l=20, r=20, t=60, b=20),
+        style_fig(
+            fig, 430,
+            title_text="Weekly demand across all products",
             xaxis_title="",
-            yaxis_title="Demand"
+            yaxis_title="Demand",
+            showlegend=False
         )
 
         st.plotly_chart(
